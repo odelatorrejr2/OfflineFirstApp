@@ -41,7 +41,7 @@ The app displays a list of users (name, email, and phone) from the JSONPlacehold
 
 ---
 
-## Project Structure
+## 6. Project Structure
 data/
 ├── api/ (API services using Retrofit)
 ├── db/ (Room Database, DAO, entities)
@@ -50,4 +50,13 @@ ui/
 ├── viewmodel/
 ├── adapter/
 UserApplication.kt (Provides singleton instances for Repository & Database)
+
+---
+
+### 7. Screenshots
+<img width="1080" height="2340" alt="Screenshot_20251114_012336" src="https://github.com/user-attachments/assets/205b70f8-fc11-4290-804a-7279462cd550" />
+<img width="1080" height="2340" alt="Screenshot_20251114_012343" src="https://github.com/user-attachments/assets/6cfafccb-9d5b-4015-a17d-afca6715013a" />
+<img width="1080" height="2340" alt="Screenshot_20251114_012356" src="https://github.com/user-attachments/assets/a26da409-ca07-4bfe-827d-3dab7f9ca849" />
+<img width="1080" height="2340" alt="Screenshot_20251114_012412" src="https://github.com/user-attachments/assets/90e40545-9216-4dff-9ef5-3c2cbbf2e122" />
+<img width="1080" height="2340" alt="Screenshot_20251114_012509" src="https://github.com/user-attachments/assets/72797d27-275f-48f4-8000-2024e97380d5" />
 
