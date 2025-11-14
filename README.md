@@ -1,42 +1,46 @@
-User Directory App
+# User Directory App
 
-This is an Android application for a mobile development class project. It's a "User Directory" app that fetches user data from a public API, stores it in a local Room Database, and displays it in a clean, searchable UI. The app is built with an offline-first architecture.
+This is an Android application for a mobile development class project. It is a **User Directory** app that fetches user data from a public API, stores it in a local Room Database, and displays it in a clean, searchable UI. The app follows an **offline-first architecture**.
 
-(Screenshot of the main screen with the list of users)
+---
 
-App Overview
+## 📱 App Overview
 
-The app displays a list of users (name, email, and phone) from the JSONPlaceholder API. This list is fully functional even when the device is offline, as the data is cached locally. The app also features a local search bar that allows users to filter the cached user list by name or email in real-time.
+The app displays a list of users (name, email, and phone) from the **JSONPlaceholder API**.
 
-Core Functionality
+- The list works **fully offline** thanks to Room caching.  
+- A built-in search bar filters users by **name or email in real time**, using only local data.
 
-Here is a brief, two-line description of how the core project requirements were implemented:
+---
 
-1. Fetch Users from API
+## ⚙️ Core Functionality
 
-We use Retrofit to define a simple ApiService interface. A GET request is made to the API, and Gson is used to parse the JSON response directly into our User data classes.
+Below is a brief overview showing how each major requirement was implemented.
 
-2. Store Users in Local Database
+### 1. Fetch Users from API
+- Retrofit is used to define the `ApiService`.
+- A GET request retrieves user data, and Gson automatically parses the JSON into data classes.
 
-We use Room Database to store the user list. The User data class is defined as an @Entity, and we use @Embedded to seamlessly flatten the nested address and company objects into our table.
+### 2. Store Users in Local Database
+- Room Database stores all user information.
+- The `User` data class is marked with `@Entity`.
+- `@Embedded` is used to flatten nested address and company objects into columns.
 
-3. Display from Room (Single Source of Truth)
+### 3. Display from Room (Single Source of Truth)
+- The UI observes a **Kotlin Flow** from the `UserDao` through the ViewModel.
+- The UI **never** uses API data directly — Room contains the only source of truth.
 
-The UI (via the ViewModel) observes a Kotlin Flow directly from the UserDao. The UI never displays data from the API directly; it only reads from the Room database, which serves as the single source of truth.
+### 4. Offline-First Pattern
+- On startup, the ViewModel attempts to refresh from the API.
+- If the API call succeeds → Room is updated, and the UI auto-updates through Flow.
+- If it fails → The app falls back to the **cached Room data** with no error.
 
-4. Offline-First Pattern
+### 5. Search Functionality
+- A SearchView sends the query to the ViewModel → Repository → Dao.
+- `LIKE` SQL queries filter results locally.
+- Searching works instantly and **offline**.
 
-When the app starts, the ViewModel immediately tries to refresh data from the API. If the API call succeeds, Room is updated (and the UI auto-updates via Flow); if it fails (no internet), the app simply shows the last-known cached data from Room without any error.
+---
 
-5. Search Functionality
-
-A SearchView in the UI sends the query to the ViewModel, which passes it to the UserRepository. The UserDao performs a local, real-time search using a LIKE query in plain SQL, ensuring the search is fast and works offline.
-
-Project Structure
-
-data/: Contains all data-related classes (Models, DAO, Database, Repository, and API services).
-
-ui/: Contains UI-related logic classes (ViewModel, Adapter, and ViewModelFactory).
-
-UserApplication.kt: A custom Application class used to create singleton instances of the UserRepository and UserDatabase.
+## 🗂️ Project Structure
 
